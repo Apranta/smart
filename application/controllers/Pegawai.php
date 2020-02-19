@@ -19,7 +19,7 @@ class Pegawai extends MY_Controller
             redirect('login');
             exit;
         }
-        $this->load->model(['Pegawai_m', 'Penilaian_m', 'Nilai_tes_m', 'Nilai_kriteria_m', 'Kriteria_m', 'Data_berkas_m', 'Tes_tertulis_m', 'Berkas_m']);
+        $this->load->model(['Pegawai_m', 'Penilaian_m', 'Nilai_tes_m', 'Nilai_kriteria_m', 'Kriteria_m', 'Data_berkas_m', 'Tes_tertulis_m', 'Berkas_m','Domisili_m']);
         $this->data['user'] = $this->Pegawai_m->get_row(['email' => $this->data['username']]);
     }
 

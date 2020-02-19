@@ -18,57 +18,55 @@
                                     <table class="table table-striped">
                                         <thead>
                                             <tr>
-                                                <?php foreach ($this->Nilai_tes_m->get() as $value): ?>
-                                                    
-                                                <th><?= $value->nama ?></th>
-                                                <?php endforeach ?>
+                                                <td>Nilai Tes</td>
+                                            <td><?= ($this->Tes_tertulis_m->get_row(['id_pegawai' => $user->id_pegawai])) ? $this->Tes_tertulis_m->get_row(['id_pegawai' => $user->id_pegawai])->nilai : 0 ?> </td>
                                             </tr>
                                         </thead>
-                                        <tbody>
-                                            <tr>
-                                                <?php foreach ($this->Nilai_tes_m->get() as $value): ?>
-                                                    <td><?= ($this->Tes_tertulis_m->get_row(['id_pendaftar' => $username , 'id_nilai' => $value->id_nilai])) ? $this->Tes_tertulis_m->get_row(['id_pendaftar' => $username , 'id_nilai' => $value->id_nilai])->nilai : 0 ?> </td>
-                                                <?php endforeach ?>
-                                            </tr>
-                                        </tbody>
                                     </table>
                                     <hr>
                                     <h4 class="text-center">Penilaian WAWANCARA</h4><hr>
+                                    <style type="text/css">
+                                        tr th, tr td {text-align: center; padding: 1%;}
+                                    </style>
                                     <table class="table table-bordered">
                                         <thead>
                                             <tr>
-                                                <th rowspan="2" valign="center" style="vertical-align: center !important;">#</th>
-                                                <th rowspan="2" valign="center" style="vertical-align: center !important;">Nama</th>
-                                                <th colspan="<?= count($this->Kriteria_m->get()) ?>">Kriteria</th>
-                                                <th rowspan="2">Total</th>
+                                                <th rowspan="3" valign="center" style="vertical-align: center !important;">Nama</th>
+                                                <th colspan="<?= count($this->Kriteria_m->get()) + 2 ?>">Kriteria</th>
                                             </tr>
                                             <tr>
-                                                <?php foreach ($this->Kriteria_m->get() as $kri): ?>
+                                                <th rowspan="2">Domisili</th>
+                                                <th rowspan="2">Nilai tes</th>
+                                                <th colspan="<?= count($this->Kriteria_m->get()) ?>">Wawancara</th>
+                                            </tr>
+                                            <tr>
+                                                
+                                            <?php foreach ($this->Kriteria_m->get() as $kri): ?>
                                                     <th><?= $kri->nama ?></th>
                                                 <?php endforeach ?>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             <tr>
-                                                <td>1</td>
                                                 <td><?= $user->nama ?></td>
+                                                <td><?= $this->Domisili_m->get_row(['id_pegawai' => $user->id_pegawai])->nilai ?> KM</td>
+                                                <td><?= $this->Tes_tertulis_m->get_row(['id_pegawai' => $user->id_pegawai])->nilai ?></td>
                                                 <?php
-                                                $total = 0;
+                                                $total[$user->username] = 0;
                                                 foreach ($this->Kriteria_m->get() as $kri): ?>
                                                     <th><?php 
-                                                        $nilai = $this->Penilaian_m->get_row(['id_pegawai' => $user->username , 'id_kriteria' => $kri->id]);
+                                                        $nilai = $this->Penilaian_m->get_row(['id_pegawai' => $user->id_pegawai , 'id_kriteria' => $kri->id]);
                                                         if (!isset($nilai)) {
-                                                            $total+=0;
+                                                            $total[$user->username]+=0;
                                                             echo "0";
                                                         }
                                                         else{
-                                                            $val = ($this->Nilai_kriteria_m->get_row(['id' => $nilai->nilai])) ? $this->Nilai_kriteria_m->get_row(['id' => $nilai->nilai])->bobot : 0;
-                                                            $total+=$val;
+                                                            $val = ($this->Nilai_kriteria_m->get_row(['id' => $nilai->nilai])) ? $this->Nilai_kriteria_m->get_row(['id' => $nilai->nilai])->nilai : 0;
+                                                            $total[$user->username]+=$val;
                                                             echo $val;
                                                         }
                                                     ?></th>
                                                 <?php endforeach ?>
-                                                <td><?= $this->Penilaian_m->Total($user->username)->total ?></td>
                                             </tr>
                                         </tbody>
                                     </table>

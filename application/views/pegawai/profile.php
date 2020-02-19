@@ -26,7 +26,7 @@
 									<div class="profile-info">
 										<h4 class="heading">Data Diri</h4>
 										<ul class="list-unstyled list-justify">
-											<li>Username<span><?= $user->username ?></span></li>
+											<li>Email<span><?= $user->email ?></span></li>
 											<li>Telepon<span><?= $user->telepon ?></span></li>
 											<li>Tempat Lahir <span><?= $user->tempat_lahir ?></span></li>
 											<li>Tanggal Lahir <span><?= $user->tanggal_lahir ?></span></li>
@@ -35,7 +35,7 @@
 										</ul>
 									<hr>
 									<a href="<?= base_url('pegawai/edit_profile') ?>" class="btn btn-primary">Edit Profile</a>
-									<a href="" class="btn btn-primary" data-toggle="modal" data-target="#add"><i class="fa fa-gear"></i> Setting Password</a>								</div>		
+											</div>		
 										</div>
 									</div>
 								</div>
