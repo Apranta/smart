@@ -1,0 +1,130 @@
+{
+	"criteria": [
+		{
+			"label": "Pengalaman Kerja",
+			"name": "pengalaman_kerja",
+			"weight": 95,
+			"type": "pair",
+			"rules": {
+				"Penyiar Radio" : 100,
+				"Penyiar TV"	: 80,
+				"MC"			: 60,
+				"Umum"			: 40,
+				"Tidak Memiliki": 20
+			}
+		},
+		{
+			"label": "Pengalaman Masa Kerja",
+			"name": "pengalaman_masa_kerja",
+			"weight": 95,
+			"type": "pair",
+			"rules": {
+				"4 tahun" : 100,
+				"3 tahun"	: 80,
+				"2 tahun"			: 60,
+				"1 tahun"			: 40,
+				"tidak Memiliki": 20
+			}
+		},
+		{
+			"label": "Genre Musik",
+			"name": "genre",
+			"weight": 70,
+			"type": "pair",
+			"rules": {
+				"5 genre" : 100,
+				"4 genre"	: 80,
+				"3 genre"			: 60,
+				"2 genre"			: 40,
+				"1 genre": 20
+			}
+		},
+		{
+			"label": "Bahasa di kuasai",
+			"name": "bahasa",
+			"weight": 90,
+			"type": "pair",
+			"rules": {
+				"Bahasa Daerah , Bahasa Indonesia , dan Bahasa Asing" : 100,
+				"Bahasa Daerah , Bahasa Indonesia"	: 80,
+				"Bahasa Indonesia , dan Bahasa Asing"			: 60,
+				"Bahasa Indonesia"			: 40,
+				"Bahasa Daerah": 20
+			}
+		},
+		{
+			"label": "Nilai Tes",
+			"name": "nilai_tes",
+			"weight": 65,
+			"type": "range",
+			"rules": [
+				{
+					"min": 90,
+					"value": 100
+				},
+				{
+					"max": 89,
+					"min": 80,
+					"value": 80
+				},
+				{
+					"max": 79,
+					"min": 70,
+					"value": 60
+				},
+				{
+					"max": 69,
+					"min": 60,
+					"value": 40
+				},
+				{
+					"max": 59,
+					"value": 20
+				}
+			]
+		},
+		{
+			"label": "Domisili",
+			"name": "domisili",
+			"weight": 60,
+			"type": "range",
+			"rules": [
+				{
+					"min": 15,
+					"value": 100
+				},
+				{
+					"max": 25,
+					"min": 16,
+					"value": 80
+				},
+				{
+					"max": 35,
+					"min": 26,
+					"value": 60
+				},
+				{
+					"max": 45,
+					"min": 36,
+					"value": 40
+				},
+				{
+					"max": 50,
+					"value": 20
+				}
+			]
+		}
+	],
+	"predicates": [
+		{
+			"label": "Layak",
+			"max": 100,
+			"min": 80
+		},
+		{
+			"label": "Tidak Layak",
+			"max": 79,
+			"min": 0
+		}
+	]
+}

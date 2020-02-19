@@ -1,0 +1,8 @@
+1. Rubah input nilai jadi 123 
+   1 = kurang , 2 = cukup , 3 = Baik
+
+2. Nilai pada tes itu sudah terbagi atau sudah          dapet    total dibagi 3 
+
+3.admin itu terbagi 2 ada admin biasa dan Ade penguji 
+
+4. Primary keynyo database 
