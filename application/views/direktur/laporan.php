@@ -15,45 +15,63 @@
                                         tr th, tr td {text-align: center; padding: 1%;}
                                     </style>
                                     <table class="table table-bordered">
-                                        <thead>
-                                            <tr>
-                                                <th rowspan="2" valign="center" style="vertical-align: center !important;">#</th>
-                                                <th rowspan="2" valign="center" style="vertical-align: center !important;">Nama</th>
-                                                <th colspan="<?= count($this->Kriteria_m->get()) ?>">Kriteria</th>
-                                                <th rowspan="2">Total</th>
-                                            </tr>
-                                            <tr>
-                                                <?php foreach ($this->Kriteria_m->get() as $kri): ?>
-                                                    <th><?= $kri->nama ?></th>
-                                                <?php endforeach ?>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <?php $i=0; foreach ($data as $pegawai): ?>
-                                            <tr>
-                                                <td><?= ++$i; ?></td>
-                                                <td><?= $pegawai->nama ?></td>
-                                                <?php
-                                                $total[$pegawai->username] = 0;
-                                                foreach ($this->Kriteria_m->get() as $kri): ?>
-                                                    <th><?php 
-                                                        $nilai = $this->Penilaian_m->get_row(['id_pegawai' => $pegawai->username , 'id_kriteria' => $kri->id]);
-                                                        if (!isset($nilai)) {
-                                                            $total[$pegawai->username]+=0;
-                                                            echo "0";
-                                                        }
-                                                        else{
-                                                            $val = ($this->Nilai_kriteria_m->get_row(['id' => $nilai->nilai])) ? $this->Nilai_kriteria_m->get_row(['id' => $nilai->nilai])->bobot : 0;
-                                                            $total[$pegawai->username]+=$val;
-                                                            echo $val;
-                                                        }
-                                                    ?></th>
-                                                <?php endforeach ?>
-                                                <td><?= $total[$pegawai->username] ?></td>
-                                            </tr>
-                                            <?php endforeach ?>
-                                        </tbody>
-                                    </table>
+                        <thead>
+                            <tr>
+                                <th rowspan="3" valign="center" style="vertical-align: center !important;">#</th>
+                                <th rowspan="3" valign="center" style="vertical-align: center !important;">Nama</th>
+                                <th colspan="<?= count($this->Kriteria_m->get()) + 2 ?>">Kriteria</th>
+                                <th rowspan="3">Total</th>
+                            </tr>
+                            <tr>
+                                <th rowspan="2">Domisili</th>
+                                <th rowspan="2">Nilai tes</th>
+                                <th colspan="<?= count($this->Kriteria_m->get()) ?>">Wawancara</th>
+                            </tr>
+                            <tr>
+
+                                <?php foreach ($this->Kriteria_m->get() as $kri) : ?>
+                                    <th><?= $kri->nama ?></th>
+                                <?php endforeach ?>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php $i = 0;
+                            foreach ($data as $pegawai) : 
+                            $total_all[$pegawai->id_pegawai] = 0;
+                            ?>
+                                <tr>
+                                    <td><?= ++$i; ?></td>
+                                    <td><?= $pegawai->nama ?></td>
+                                    <td><?php
+                                        $t = $this->Domisili_m->get_row(['id_pegawai' => $pegawai->id_pegawai])->nilai;
+                                        $total_all[$pegawai->id_pegawai] += $t;
+                                        echo $t;?> KM</td>
+                                    <td><?php
+                                     $s = $this->Tes_tertulis_m->get_row(['id_pegawai' => $pegawai->id_pegawai])->nilai;
+                                     $total_all[$pegawai->id_pegawai] += $s; 
+                                     echo $s;
+                                     ?></td>
+                                    <?php
+                                    $total[$pegawai->id_pegawai] = 0;
+                                    foreach ($this->Kriteria_m->get() as $kri) : ?>
+                                        <td><?php
+                                            $nilai = $this->Penilaian_m->get_row(['id_pegawai' => $pegawai->id_pegawai, 'id_kriteria' => $kri->id]);
+                                            if (!isset($nilai)) {
+                                                $total[$pegawai->id_pegawai] += 0;
+                                                echo "0";
+                                            } else {
+                                                $val = ($this->Nilai_kriteria_m->get_row(['id' => $nilai->nilai])) ? $this->Nilai_kriteria_m->get_row(['id' => $nilai->nilai])->nilai : 0;
+                                                $total[$pegawai->id_pegawai] += $val;
+                                                echo $val;
+                                            }
+                                            ?></td>
+                                    <?php endforeach ?>
+                                    <td><?= $total[$pegawai->id_pegawai] + $total_all[$pegawai->id_pegawai] ?></td>
+                                </tr>
+                            <?php endforeach ?>
+                        </tbody>
+                    </table>
+                    
                                     <!-- /.table-responsive -->
                                 </div>
                                 <div class="panel-footer">

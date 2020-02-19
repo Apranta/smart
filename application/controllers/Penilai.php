@@ -1,5 +1,5 @@
 <?php
-defined('BASEPATH') OR exit('No direct script access allowed');
+defined('BASEPATH') or exit('No direct script access allowed');
 
 class Penilai extends MY_Controller
 {
@@ -9,14 +9,12 @@ class Penilai extends MY_Controller
         parent::__construct();
         $this->data['username']      = $this->session->userdata('username');
         $this->data['role']  = $this->session->userdata('role');
-        if (!isset($this->data['username'], $this->data['role']))
-        {
+        if (!isset($this->data['username'], $this->data['role'])) {
             $this->session->sess_destroy();
             redirect('login');
             exit;
         }
-        if ($this->data['role'] != 4)
-        {
+        if ($this->data['role'] != 4) {
             $this->session->sess_destroy();
             redirect('login');
             exit;
@@ -29,10 +27,10 @@ class Penilai extends MY_Controller
         $this->load->model('Domisili_m');
         $this->load->model('Tes_tertulis_m');
         $this->load->model('Nilai_kriteria_m');
-        
+
         $this->load->model('Nilai_tes_m');
         $this->data['user'] = $this->Manager_m->get_row(['username' => $this->data['username']]);
-        $this->data['kriteria']     =   $this->Kriteria_m->get(); 
+        $this->data['kriteria']     =   $this->Kriteria_m->get();
     }
 
     public function index()
@@ -49,10 +47,10 @@ class Penilai extends MY_Controller
                 // $this->Penilaian_saw_m->insert($this->data['entry']);
 
             }
-            redirect('penilai','refresh');
+            redirect('penilai', 'refresh');
             exit;
         }
-        
+
         $this->data['data']         = $this->Pegawai_m->get();
         $this->data['title']        = 'Dashboard Admin';
         $this->data['content']      = 'penilai/dashboard';
@@ -87,19 +85,19 @@ class Penilai extends MY_Controller
             exit;
         }
         if ($this->POST('domisili')) {
-                $this->Domisili_m->insert([
-                    'id_pegawai'    => $id,
-                    'nilai'         => $this->POST('nilai')
-                ]);
+            $this->Domisili_m->insert([
+                'id_pegawai'    => $id,
+                'nilai'         => $this->POST('nilai')
+            ]);
             redirect('penilai/penilaian');
             exit;
         }
-        
+
         $this->load->model('Tes_tertulis_m');
         $this->load->model('Data_berkas_m');
         $this->data['data']         = $this->Pegawai_m->get_row(['id_pegawai' => $id]);
         $this->data['berkas']         = $this->Data_berkas_m->get(['id_pegawai' => $id]);
-        $this->data['nilai']         = $this->Tes_tertulis_m->get_row(['id_pendaftar' => $id]);
+        $this->data['nilai']         = $this->Tes_tertulis_m->get_row(['id_pegawai' => $id]);
         $this->data['title']        = 'Dashboard Admin';
         $this->data['content']      = 'penilai/nilai_pegawai';
         $this->template($this->data);
@@ -139,11 +137,10 @@ class Penilai extends MY_Controller
         if ($this->POST('submit')) {
             $nilai = $this->nilai();
             foreach ($nilai as $key => $value) {
-                if ($value >= 75) {
-                    $this->Pegawai_m->update($key , ['wawancara' => 1]);
-                }
-                else
-                    $this->Pegawai_m->update($key , ['wawancara' => 9]);
+                if ($value >= 60) {
+                    $this->Pegawai_m->update($key, ['wawancara' => 1]);
+                } else
+                    $this->Pegawai_m->update($key, ['wawancara' => 9]);
             }
             echo "berhasil";
             exit;
@@ -165,49 +162,37 @@ class Penilai extends MY_Controller
 
     public function nilai()
     {
-        $this->load->model(['Nilai_kriteria_m','Penilaian_m']);
         $this->data['data']          = $this->Pegawai_m->get();
-        $i=0; 
-        $totalp = [];
+        $i = 0;
         $total = [];
-        foreach ($this->data['data'] as $pegawai){
-            $total[$pegawai->username] = 0;
-            foreach ($this->Kriteria_m->getGroupBy() as $kri){
-                $nilai = $this->Penilaian_m->get_row(['id_pegawai' => $pegawai->username , 'id_kriteria' => $kri->id]);
+        foreach ($this->data['data'] as $pegawai) {
+            $total[$pegawai->id_pegawai] = 0;
+            //domisili
+            $dom = $this->Domisili_m->getUtiliti($pegawai->id_pegawai) * 0.2;
+            $total[$pegawai->id_pegawai] += $dom;
+            //tes
+            $tes = $this->Tes_tertulis_m->getUtiliti($pegawai->id_pegawai) * 0.3;
+            $total[$pegawai->id_pegawai] += $tes;
+
+            //wawancara
+            $total_ww[$pegawai->id_pegawai] = 0;
+            foreach ($this->Kriteria_m->get() as $kri) :
+                $nilai = $this->Penilaian_m->get_row(['id_pegawai' => $pegawai->id_pegawai, 'id_kriteria' => $kri->id]);
                 if (!isset($nilai)) {
-                    $total[$pegawai->username]+=0;
+                    $total_ww[$pegawai->id_pegawai] += 0;
+                } else {
+                    $n_krit = $this->Nilai_kriteria_m->get_row(['id' => $nilai->nilai]);
+                    $val = $n_krit ? $n_krit->nilai : 0;
+
+                    //utiliti
+                    $uti = $this->Nilai_kriteria_m->getUtiliti($val, $kri->id);
+                    $total_ww[$pegawai->id_pegawai] += $uti;
                 }
-                else{
-                    $total[$pegawai->username]+=$nilai->nilai;
-                }
-            }
-            $totalp[$pegawai->username] = 0;
-            foreach ($this->Kriteria_m->getGroupBy() as $kri){
-                $nilai = $this->Penilaian_m->get_row(['id_pegawai' => $pegawai->username , 'id_kriteria' => $kri->id]);
-                    if (!isset($nilai)) {
-                        $totalp[$pegawai->username]+=0;
-                    }
-                    else{
-                        $gabungan = $this->Kriteria_m->get(['gabungan' => $kri->gabungan]);
-                                                            if (count($gabungan) == 1) {
-                                                                $val = ($this->Nilai_kriteria_m->get_row(['id' => $nilai->nilai])) ? $this->Nilai_kriteria_m->get_row(['id' => $nilai->nilai])->bobot : 0;
-                                                                $nilai_uti = $this->Nilai_kriteria_m->getUtiliti($val , $kri->id , $pegawai->username);
-                                                            }
-                                                            else{
-                                                                $uti = 0;
-                                                                foreach ($gabungan as $value) {
-                                                                    $n = $this->Penilaian_m->get_row(['id_pegawai' => $pegawai->username , 'id_kriteria' => $value->id]);
-                                                                    $v = ($this->Nilai_kriteria_m->get_row(['id' => $n->nilai])) ? $this->Nilai_kriteria_m->get_row(['id' => $n->nilai])->bobot : 0;
-                                                                    $uti += $this->Nilai_kriteria_m->getUtiliti($v , $value->id , $pegawai->username);
-                                                                }
-                                                                $nilai_uti = $uti/count($gabungan);
-                                                            }
-                                                            $hasil = round ($nilai_uti * ($kri->bobot / $this->Kriteria_m->get_total()) , 3 ) ;
-                                                            $totalp[$pegawai->username]+=round($hasil , 3 ) * 100;
-                    }
-            }
-        }    
-        arsort($totalp);
-        return $totalp;
+            endforeach;
+            $total[$pegawai->id_pegawai] += (($total_ww[$pegawai->id_pegawai] / 4 ) * 0.5);
+            $total[$pegawai->id_pegawai] = $total[$pegawai->id_pegawai] * 100;
+        }
+        arsort($total);
+        return $total;
     }
 }

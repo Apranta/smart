@@ -38,7 +38,7 @@
                                                 <td><?= ($pegawai->berkas == 1)? 'LULUS' : 'Tidak Lulus' ?></td>
                                                 <td><?= ($pegawai->tes == 1)? 'LULUS' : 'Tidak Lulus' ?></td>
                                                 <td><?= ($pegawai->wawancara == 1)? 'LULUS' : 'Tidak Lulus' ?></td>
-                                                <td><?= $total[$pegawai->username] ?></td>
+                                                <td><?= $total[$pegawai->id_pegawai] ?></td>
                                             </tr>
                                             <?php endforeach ?>
                                         </tbody> 
@@ -181,7 +181,7 @@
                     series: [
                     <?php foreach ($total as $key => $value): ?>
                     {
-                        name: '<?= $this->Pegawai_m->get_row(['username' => $key])->nama ?>',
+                        name: '<?= $this->Pegawai_m->get_row(['id_pegawai' => $key])->nama ?>',
                         data: [<?= $value ?>]
                     },
                     <?php endforeach ?>

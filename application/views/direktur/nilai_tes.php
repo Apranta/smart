@@ -16,9 +16,6 @@
                                             <tr>
                                                 <th>No</th>
                                                 <th>Nama</th>
-                                                <?php foreach ($this->Nilai_tes_m->get() as $e): ?>
-                                                    <th><?= $e->nama ?></th>
-                                                <?php endforeach ?>
                                                 <th>Total</th>
                                                 <th>Action</th>
                                                 <!-- <th></th> -->
@@ -31,20 +28,17 @@
                                             <tr>
                                                 <td style="width: 20px !important;" ><?= $i ?></td>
                                                 <td><?= $row->nama ?></td>
-                                                
-                                                <?php foreach ($this->Nilai_tes_m->get() as $e): ?>
+                                            
                                                     <td><?php
-                                                     $nilai =  $this->Tes_tertulis_m->get_row(['id_pendaftar' => $row->username , 'id_nilai' => $e->id_nilai]) ? $this->Tes_tertulis_m->get_row(['id_pendaftar' => $row->username , 'id_nilai' => $e->id_nilai])->nilai : 0 ;
+                                                     $nilai =  $this->Tes_tertulis_m->get_row(['id_pegawai' => $row->id_pegawai ]) ? $this->Tes_tertulis_m->get_row(['id_pegawai' => $row->id_pegawai])->nilai : 0 ;
                                                         $total+=$nilai;
                                                         echo $nilai;
                                                      ?></td>
-                                                <?php endforeach ?>
-                                                <td><?= $total ?></td>
                                                 <td align="center">
                                                     <?php if ($row->tes == 1): ?>
-                                                        <button class="btn btn-danger" onclick="batal('<?= $row->username ?>')">TIDAK DITERIMA</button>
+                                                        <button class="btn btn-danger" onclick="batal('<?= $row->id_pegawai ?>')">TIDAK DITERIMA</button>
                                                     <?php else : ?>
-                                                        <button class="btn btn-success" onclick="lulus('<?= $row->username ?>')"> DITERIMA</button>
+                                                        <button class="btn btn-success" onclick="lulus('<?= $row->id_pegawai ?>')"> DITERIMA</button>
                                                     <?php endif ?>
                                                 </td>
                                             </tr>
