@@ -41,7 +41,8 @@ class Pegawai extends MY_Controller
     public function edit_profile($value = '')
     {
         if ($this->POST('simpan')) {
-            $this->Pegawai_m->update($this->data['id_pegawai'], [
+            // print_r($this->POST('genre'));exit;
+            $this->Pegawai_m->update($this->data['user']->id_pegawai, [
                 'no_ktp'          => $this->POST('no_ktp'),
                 'nama'          => $this->POST('nama'),
                 'email'          => $this->POST('email'),
@@ -126,14 +127,14 @@ class Pegawai extends MY_Controller
         # code...
         if ($this->POST('upload')) {
             # code...
-            $this->Data_berkas_m->insert(['id_pegawai' => $this->data['id_pegawai'], 'id_data_berkas' => $this->POST('id')]);
+            $this->Data_berkas_m->insert(['id_pegawai' => $this->data['user']->id_pegawai, 'id_data_berkas' => $this->POST('id')]);
             if (!empty($_FILES['file']['name']))
                 $this->uploadPDF($this->db->insert_id(), 'berkas', 'file');
 
             redirect('pegawai/berkas');
             exit;
         }
-        $this->data['data']       = $this->Data_berkas_m->get(['id_pegawai' => $this->data['id_pegawai']]);
+        $this->data['data']       = $this->Data_berkas_m->get(['id_pegawai' => $this->data['user']->id_pegawai]);
         $this->data['title']        = 'Dashboard Admin';
         $this->data['content']      = 'pegawai/berkas';
         $this->template($this->data);

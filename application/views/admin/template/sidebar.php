@@ -8,7 +8,6 @@
                         <li><a href="<?= base_url('admin/data-pegawai') ?>" class=""><i class="lnr lnr-user"></i> <span>Data Calon Pegawai</span></a></li></li>
                         <li><a href="<?= base_url('admin/kriteria') ?>" class=""><i class="fa fa-table"></i> <span>Kriteria</span></a></li></li>
                         <li><a href="<?= base_url('admin/data_berkas') ?>" class=""><i class="fa fa-table"></i> <span>Data Berkas</span></a></li></li>
-                        <li><a href="<?= base_url('admin/tes_tertulis') ?>" class=""><i class="fa fa-edit"></i> <span>Input Nilai Tes Tertulis</span></a></li></li>
                         <li><a href="<?= base_url('admin/nilai_pegawai') ?>" class=""><i class="fa fa-edit"></i> <span>Data Penilaian Pegawai</span></a></li></li>
                         <li><a href="<?= base_url('admin/penilaian') ?>" class=""><i class="fa fa-edit"></i> <span>Penilaian Pegawai</span></a></li></li>
                         <li><a href="<?= base_url('admin/informasi') ?>"><i class="lnr lnr-user"></i> <span>Pemberitahuan</span></a></li>
@@ -34,6 +33,8 @@
                     <ul class="nav">
                         <li><a href="<?= base_url('penilai/') ?>" class="active"><i class="lnr lnr-home"></i> <span>Dashboard</span></a></li>
                         <li><a href="<?= base_url('penilai/data-pegawai') ?>" class=""><i class="lnr lnr-user"></i> <span>Data Calon Pegawai</span></a></li></li>
+                        <li><a href="<?= base_url('penilai/tes_tertulis') ?>" class=""><i class="fa fa-edit"></i> <span>Input Nilai Tes Tertulis</span></a></li></li>
+
                         <li><a href="<?= base_url('penilai/penilaian') ?>" class=""><i class="fa fa-file"></i> <span>Penilaian</span></a></li></li>
                         <li><a href="<?= base_url('penilai/nilai_pegawai') ?>" class=""><i class="fa fa-file"></i> <span>Rekap Penilaian</span></a></li></li>
                     </ul>

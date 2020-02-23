@@ -73,9 +73,9 @@ class Manager extends MY_Controller
         }
         $this->load->model('Tes_tertulis_m');
         $this->load->model('Data_berkas_m');
-        $this->data['data']         = $this->Pegawai_m->get_row(['username' => $id]);
+        $this->data['data']         = $this->Pegawai_m->get_row(['id_pegawai' => $id]);
         $this->data['berkas']         = $this->Data_berkas_m->get(['id_pegawai' => $id]);
-        $this->data['nilai']         = $this->Tes_tertulis_m->get_row(['id_pendaftar' => $id]);
+        $this->data['nilai']         = $this->Tes_tertulis_m->get_row(['id_pegawai' => $id]);
         $this->data['title']        = 'Dashboard Admin';
         $this->data['content']      = 'direktur/detail-pegawai';
         $this->template($this->data);

@@ -27,7 +27,9 @@
                                                 <th>Tes Tertulis</th>
                                                 <th>Wawancara</th>
                                                 <th>Nilai Akhir</th>
-                                                <!-- <th></th> -->
+                                    <?php if ($this->session->userdata('role') == 2): ?>
+                                                <th></th>
+                                    <?php endif; ?>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -39,6 +41,10 @@
                                                 <td><?= ($pegawai->tes == 1)? 'LULUS' : 'Tidak Lulus' ?></td>
                                                 <td><?= ($pegawai->wawancara == 1)? 'LULUS' : 'Tidak Lulus' ?></td>
                                                 <td><?= $total[$pegawai->id_pegawai] ?></td>
+                                    <?php if ($this->session->userdata('role') == 2): ?>
+                                                <th><a href="<?= base_url('manager/detail-pegawai/'.$pegawai->id_pegawai) ?>" class="btn btn-info btn-xs"><i class="fa fa-eye"></i> Detail</a>
+                                                </th>
+                                    <?php endif; ?>
                                             </tr>
                                             <?php endforeach ?>
                                         </tbody> 

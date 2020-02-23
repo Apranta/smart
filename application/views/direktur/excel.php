@@ -51,7 +51,7 @@ header("Content-Disposition: attachment; filename=Laporan-Penilaian.xls");
 				<td><?php
 					$t = $this->Domisili_m->get_row(['id_pegawai' => $pegawai->id_pegawai])->nilai;
 					$total_all[$pegawai->id_pegawai] += $t;
-					echo $t; ?> KM</td>
+					echo $t; ?></td>
 				<td><?php
 					$s = $this->Tes_tertulis_m->get_row(['id_pegawai' => $pegawai->id_pegawai])->nilai;
 					$total_all[$pegawai->id_pegawai] += $s;

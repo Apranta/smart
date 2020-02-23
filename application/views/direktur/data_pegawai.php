@@ -28,7 +28,7 @@
                                                 <th>Nama</th>
                                                 <th>TTL</th>
                                                 <th>Alamat</th>
-                                                <th>Pendidikan</th>
+                                                <!-- <th>Pendidikan</th> -->
                                                 <th>Tahun Penerimaan</th>
                                                 <th>Action</th>
                                                 <!-- <th></th> -->
@@ -41,10 +41,10 @@
                                                 <td><?= $row->nama ?></td>
                                                 <td><?= $row->tempat_lahir.','.$row->tanggal_lahir?></td>
                                                 <td><?= $row->alamat?></td>
-                                                <td><?= $row->pendidikan ?></td>
+                                                <!-- <td><?= $row->pendidikan ?></td> -->
                                                 <td><?= $row->tahun_penerimaan ?></td>
                                                 <td align="center">
-                                                <a href="<?= base_url('manager/detail-pegawai/'.$row->username) ?>" class="btn btn-info btn-xs"><i class="fa fa-eye"></i> Detail</a>
+                                                <a href="<?= base_url('manager/detail-pegawai/'.$row->id_pegawai) ?>" class="btn btn-info btn-xs"><i class="fa fa-eye"></i> Detail</a>
                                                 <!-- <button class="btn btn-danger waves-effect"><i class="glyphicon glyphicon-trash"></i></button> -->
                                                 </td>
                                                <!--  <td>

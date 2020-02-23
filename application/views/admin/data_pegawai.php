@@ -39,8 +39,8 @@
                                                 <td align="center">
                                                     <div class="btn-group">
                                                         <a href="<?= base_url('admin/detail-pegawai/'.$row->id_pegawai) ?>" class="btn btn-info btn-xs"><i class="fa fa-eye"></i></a>
-                                                        <a href="<?= base_url('admin/edit_profile/' . $row->id_pegawai) ?>" class="btn btn-primary btn-xs"> <i class="fa fa-edit"></i></a>
-                                                        <button class="btn btn-danger btn-xs" onclick="_delete('<?= $row->id_pegawai ?>');"><i class="glyphicon glyphicon-trash"></i></button>
+                                                        <!-- <a href="<?= base_url('admin/edit_profile/' . $row->id_pegawai) ?>" class="btn btn-primary btn-xs"> <i class="fa fa-edit"></i></a> -->
+                                                        <!-- <button class="btn btn-danger btn-xs" onclick="_delete('<?= $row->id_pegawai ?>');"><i class="glyphicon glyphicon-trash"></i></button> -->
                                                     </div>
                                                 </td>
                                             </tr>

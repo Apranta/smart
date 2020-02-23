@@ -57,10 +57,10 @@
 						</div>
 						<div class="form-group">
 							<label>Tanggal Lahir</label>
-							<div class="input-group date">
-								<span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-								<input type="text" name="tanggal_lahir" id="waktu" class="form-control" placeholder="YYYY-MM-DD" value="<?= $user->tanggal_lahir ?>" required>
-							</div>
+							<!-- <div class="input-group date"> -->
+								<!-- <span class="input-group-addon"><i class="fa fa-calendar"></i></span> -->
+								<input type="date" name="tanggal_lahir" class="form-control" value="<?= $user->tanggal_lahir ?>" required>
+							<!-- </div> -->
 						</div>
 						<div class="form-group">
 							<label>Alamat</label>
@@ -207,9 +207,9 @@
 
 <script>
 	$(document).ready(function() {
-		$('.input-group.date').datepicker({
-			format: "yyyy-mm-dd"
-		});
+		// $('.input-group.date').datepicker({
+		// 	format: "dd-mm-yyyy"
+		// });
 
 		$('#dataTables-example').DataTable({
 			responsive: true

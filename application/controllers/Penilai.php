@@ -93,6 +93,15 @@ class Penilai extends MY_Controller
             exit;
         }
 
+        if ($this->POST('konfirm')) {
+                    $this->Pegawai_m->update($id, ['berkas' => 1]);
+            exit;
+        }
+        if ($this->POST('notkonfirm')) {
+                    $this->Pegawai_m->update($id, ['berkas' => 9]);
+            exit;
+        }
+
         $this->load->model('Tes_tertulis_m');
         $this->load->model('Data_berkas_m');
         $this->data['data']         = $this->Pegawai_m->get_row(['id_pegawai' => $id]);
@@ -114,7 +123,7 @@ class Penilai extends MY_Controller
         $this->load->model('Data_berkas_m');
         $this->data['data']         = $this->Pegawai_m->get_row(['id_pegawai' => $id]);
         $this->data['berkas']         = $this->Data_berkas_m->get(['id_pegawai' => $id]);
-        $this->data['nilai']         = $this->Tes_tertulis_m->get_row(['id_pendaftar' => $id]);
+        $this->data['nilai']         = $this->Tes_tertulis_m->get_row(['id_pegawai' => $id]);
         $this->data['title']        = 'Dashboard Admin';
         $this->data['content']      = 'penilai/detail-pegawai';
         $this->template($this->data);
@@ -148,6 +157,44 @@ class Penilai extends MY_Controller
         $this->data['data']         = $this->Pegawai_m->get();
         $this->data['title']        = 'Dashboard Admin';
         $this->data['content']      = 'penilai/hasil_penilaian';
+        $this->template($this->data);
+    }
+
+    public function tes_tertulis()
+    {
+        $this->load->model(['Tes_tertulis_m']);
+        if ($this->POST('simpan')) {
+            if ($this->Tes_tertulis_m->get_row(['id_pegawai' => $this->POST('id')])) {
+                # code...
+                $this->flashmsg('Data telah ada silahkan lakukan edit data untuk data tersebut', 'warning');
+                redirect('penilai/tes_tertulis');
+                exit;
+            }
+
+            $this->Tes_tertulis_m->insert([
+                'id_pegawai'  => $this->POST('id'),
+                'nilai'         => $this->POST('nilai')
+            ]);
+            redirect('penilai/tes_tertulis');
+            exit;
+        }
+
+        if ($this->POST('konfirm') && $this->POST('username')) {
+            # code...
+            $this->Pegawai_m->update($this->POST('username'), ['tes' => 1]);
+            redirect('penilai/tes_tertulis');
+            exit;
+        }
+        if ($this->POST('notkonfirm') && $this->POST('username')) {
+            # code...
+            $this->Pegawai_m->update($this->POST('username'), ['tes' => 9]);
+            redirect('penilai/tes_tertulis');
+
+            exit;
+        }
+        $this->data['data']         = $this->Pegawai_m->get();
+        $this->data['title']        = 'Dashboard Admin';
+        $this->data['content']      = 'penilai/tes_tertulis';
         $this->template($this->data);
     }
 

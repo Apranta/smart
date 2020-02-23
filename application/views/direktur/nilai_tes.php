@@ -17,7 +17,7 @@
                                                 <th>No</th>
                                                 <th>Nama</th>
                                                 <th>Total</th>
-                                                <th>Action</th>
+                                                <!-- <th>Action</th> -->
                                                 <!-- <th></th> -->
                                             </tr>
                                         </thead>
@@ -34,13 +34,13 @@
                                                         $total+=$nilai;
                                                         echo $nilai;
                                                      ?></td>
-                                                <td align="center">
+                                                <!-- <td align="center">
                                                     <?php if ($row->tes == 1): ?>
                                                         <button class="btn btn-danger" onclick="batal('<?= $row->id_pegawai ?>')">TIDAK DITERIMA</button>
                                                     <?php else : ?>
                                                         <button class="btn btn-success" onclick="lulus('<?= $row->id_pegawai ?>')"> DITERIMA</button>
                                                     <?php endif ?>
-                                                </td>
+                                                </td> -->
                                             </tr>
                                             <?php $i++; endforeach; ?>
                                         </tbody>

@@ -47,11 +47,13 @@
                                     <td><?= ++$i; ?></td>
                                     <td><?= $pegawai->nama ?></td>
                                     <td><?php
-                                        $t = $this->Domisili_m->get_row(['id_pegawai' => $pegawai->id_pegawai])->nilai;
+                                        $te = $this->Domisili_m->get_row(['id_pegawai' => $pegawai->id_pegawai]);
+                                        $t = ($te) ? $te->nilai : 0;
                                         $total_all[$pegawai->id_pegawai] += $t;
-                                        echo $t;?> KM</td>
+                                        echo $t;?></td>
                                     <td><?php
-                                     $s = $this->Tes_tertulis_m->get_row(['id_pegawai' => $pegawai->id_pegawai])->nilai;
+                                     $se = $this->Tes_tertulis_m->get_row(['id_pegawai' => $pegawai->id_pegawai]);
+                                     $s = ($se) ? $se->nilai : 0;
                                      $total_all[$pegawai->id_pegawai] += $s; 
                                      echo $s;
                                      ?></td>

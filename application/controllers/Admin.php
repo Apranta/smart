@@ -298,53 +298,49 @@ class Admin extends MY_Controller
     {
         $this->load->model(['Nilai_kriteria_m', 'Penilaian_m']);
         $this->data['data']          = $this->Pegawai_m->get();
-        $i = 0;
-        $totalp = [];
-        $total = [];
-        foreach ($this->data['data'] as $pegawai) {
-            $total[$pegawai->username] = 0;
-            foreach ($this->Kriteria_m->getGroupBy() as $kri) {
-                $nilai = $this->Penilaian_m->get_row(['id_pegawai' => $pegawai->username, 'id_kriteria' => $kri->id]);
-                if (!isset($nilai)) {
-                    $total[$pegawai->username] += 0;
-                } else {
-                    $val = ($this->Nilai_kriteria_m->get_row(['id' => $nilai->nilai])) ? $this->Nilai_kriteria_m->get_row(['id' => $nilai->nilai])->bobot : 0;
-                    $total[$pegawai->username] += $val;
-                }
-            }
-            $totalp[$pegawai->username] = 0;
-            foreach ($this->Kriteria_m->getGroupBy() as $kri) {
-                $nilai = $this->Penilaian_m->get_row(['id_pegawai' => $pegawai->username, 'id_kriteria' => $kri->id]);
-                if (!isset($nilai)) {
-                    $totalp[$pegawai->username] += 0;
-                } else {
-                    $gabungan = $this->Kriteria_m->get(['gabungan' => $kri->gabungan]);
-                    if (count($gabungan) == 1) {
-                        $val = ($this->Nilai_kriteria_m->get_row(['id' => $nilai->nilai])) ? $this->Nilai_kriteria_m->get_row(['id' => $nilai->nilai])->bobot : 0;
-                        $nilai_uti = $this->Nilai_kriteria_m->getUtiliti($val, $kri->id, $pegawai->username);
-                    } else {
-                        $uti = 0;
-                        foreach ($gabungan as $value) {
-                            $n = $this->Penilaian_m->get_row(['id_pegawai' => $pegawai->username, 'id_kriteria' => $value->id]);
-                            $v = ($this->Nilai_kriteria_m->get_row(['id' => $n->nilai])) ? $this->Nilai_kriteria_m->get_row(['id' => $n->nilai])->bobot : 0;
-                            $uti += $this->Nilai_kriteria_m->getUtiliti($v, $value->id, $pegawai->username);
-                        }
-                        $nilai_uti = $uti / count($gabungan);
-                    }
-                    $hasil = round($nilai_uti * ($kri->bobot / $this->Kriteria_m->get_total()), 3);
-                    $totalp[$pegawai->username] += round($hasil, 3) * 100;
-                }
-            }
-        }
-        arsort($totalp);
         // echo "<pre>" . json_encode($totalp , JSON_PRETTY_PRINT) . "</pre>";exit;
-        $this->data['total'] = $totalp;
-
-
-
+        $this->data['total'] = $this->nilai();
         $this->data['title']        = 'Dashboard Admin';
         $this->data['content']       = 'admin/nilai_pegawai';
         $this->template($this->data);
+    }
+
+    public function nilai()
+    {
+        $this->data['data']          = $this->Pegawai_m->get();
+        $i = 0;
+        $total = [];
+        foreach ($this->data['data'] as $pegawai) {
+            $total[$pegawai->id_pegawai] = 0;
+            //domisili
+            $d = ($this->Domisili_m->getUtiliti($pegawai->id_pegawai)) ? $this->Domisili_m->getUtiliti($pegawai->id_pegawai) : 0;
+            $dom = $d * 0.2;
+            $total[$pegawai->id_pegawai] += $dom;
+            //tes
+            $t = ($this->Tes_tertulis_m->getUtiliti($pegawai->id_pegawai)) ? $this->Tes_tertulis_m->getUtiliti($pegawai->id_pegawai) : 0;
+            $tes = $t * 0.3;
+            $total[$pegawai->id_pegawai] += $tes;
+
+            //wawancara
+            $total_ww[$pegawai->id_pegawai] = 0;
+            foreach ($this->Kriteria_m->get() as $kri) :
+                $nilai = $this->Penilaian_m->get_row(['id_pegawai' => $pegawai->id_pegawai, 'id_kriteria' => $kri->id]);
+                if (!isset($nilai)) {
+                    $total_ww[$pegawai->id_pegawai] += 0;
+                } else {
+                    $n_krit = $this->Nilai_kriteria_m->get_row(['id' => $nilai->nilai]);
+                    $val = $n_krit ? $n_krit->nilai : 0;
+
+                    //utiliti
+                    $uti = $this->Nilai_kriteria_m->getUtiliti($val, $kri->id);
+                    $total_ww[$pegawai->id_pegawai] += $uti;
+                }
+            endforeach;
+            $total[$pegawai->id_pegawai] += (($total_ww[$pegawai->id_pegawai] / 4 ) * 0.5);
+            $total[$pegawai->id_pegawai] = $total[$pegawai->id_pegawai] * 100;
+        }
+        arsort($total);
+        return $total;
     }
 
     public function kriteria()

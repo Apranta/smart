@@ -145,9 +145,10 @@
                                             <td><?= $key->nama ?></td>
                                             <td>
                                                 <?php
-                                                $b = $this->Data_berkas_m->get_row(['id_pegawai' => $data->username, 'id_data_berkas' => $key->id_berkas]);
+                                                $b = $this->Data_berkas_m->get_row(['id_pegawai' => $data->id_pegawai, 'id_data_berkas' => $key->id_berkas]);
                                                 if (isset($b)) : ?>
-                                                    <a href="<?= base_url('assets/berkas/' . $b->id . '.jpg') ?>" download class="btn btn-primary"><i class="fa fa-download"></i> Download</a>
+                                                    <a href="<?= base_url('assets/berkas/' . $b->id . '.jpg') ?>" download class="btn btn-primary btn-xs"><i class="fa fa-download"></i> Download</a>
+                                                    <button onclick="view(<?= $b->id ?>)" data-toggle="modal" data-target="#view" class="btn btn-primary btn-xs"><i class="fa fa-eye"></i>&nbsp; Lihat </button>
                                                 <?php endif; ?>
                                             </td>
                                         </tr>
@@ -172,7 +173,7 @@
     function lulus(username) {
     	// alert('aa');
     	$.ajax({
-                url: "<?= base_url('penilai/pnilai_pegawai') ?>",
+                url: "<?= base_url('penilai/pnilai_pegawai/' . $data->id_pegawai) ?> ",
                 type: 'POST',
                 data: {
                     id_pegawai: username,
@@ -187,7 +188,7 @@
     function batal(username) {
         // alert('aa');
         $.ajax({
-                url: "<?= base_url('penilai/pnilai_pegawai') ?>",
+                url: "<?= base_url('penilai/pnilai_pegawai/'. $data->id_pegawai) ?>",
                 type: 'POST',
                 data: {
                     id_pegawai: username,
@@ -197,5 +198,21 @@
                     window.location = "<?= base_url('penilai/pnilai_pegawai') ?>";
                 }
             });
+    }
+</script>
+
+<div class="modal fade" tabindex="-1" role="dialog" id="view">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-body" align="center">
+                <iframe id="myImg" height="600px" width="750px"></iframe>
+                <!-- <img  class="img img-responsive" id="myImg">             -->
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div>
+<script type="text/javascript">
+    function view(id_pemesanan) {
+        document.getElementById("myImg").src = "<?= base_url('assets/berkas') . '/' ?>" + id_pemesanan + '.pdf';
     }
 </script>

@@ -46,11 +46,11 @@
                                     <td><?= ++$i; ?></td>
                                     <td><?= $pegawai->nama ?></td>
                                     <td><?php
-                                        $t = $this->Domisili_m->get_row(['id_pegawai' => $pegawai->id_pegawai])->nilai;
+                                        $t = ($this->Domisili_m->get_row(['id_pegawai' => $pegawai->id_pegawai])) ? $this->Domisili_m->get_row(['id_pegawai' => $pegawai->id_pegawai])->nilai : 0;
                                         $total_all[$pegawai->id_pegawai] += $t;
-                                        echo $t;?> KM</td>
+                                        echo $t;?></td>
                                     <td><?php
-                                     $s = $this->Tes_tertulis_m->get_row(['id_pegawai' => $pegawai->id_pegawai])->nilai;
+                                     $s = ($this->Tes_tertulis_m->get_row(['id_pegawai' => $pegawai->id_pegawai])) ? $this->Tes_tertulis_m->get_row(['id_pegawai' => $pegawai->id_pegawai])->nilai : 0;
                                      $total_all[$pegawai->id_pegawai] += $s; 
                                      echo $s;
                                      ?></td>

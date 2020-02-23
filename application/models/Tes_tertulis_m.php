@@ -11,7 +11,7 @@ class Tes_tertulis_m extends MY_Model
 
 	public function getUtiliti($id_pegawai)
 	{
-		$nilai = $this->get_row(['id_pegawai' => $id_pegawai])->nilai;
+		$nilai = ($this->get_row(['id_pegawai' => $id_pegawai])) ? $this->get_row(['id_pegawai' => $id_pegawai])->nilai : 0;
 		$uti = 0;
 		if ($nilai <= 60)
 			$uti = 0;

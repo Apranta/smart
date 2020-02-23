@@ -49,7 +49,7 @@
                                         <tbody>
                                             <tr>
                                                 <td><?= $user->nama ?></td>
-                                                <td><?= $this->Domisili_m->get_row(['id_pegawai' => $user->id_pegawai])->nilai ?> KM</td>
+                                                <td><?= $this->Domisili_m->get_row(['id_pegawai' => $user->id_pegawai])->nilai ?></td>
                                                 <td><?= $this->Tes_tertulis_m->get_row(['id_pegawai' => $user->id_pegawai])->nilai ?></td>
                                                 <?php
                                                 $total[$user->username] = 0;
